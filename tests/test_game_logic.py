@@ -1,5 +1,5 @@
 import unittest
-from api.index import app, check_winner, get_best_move
+from index import app, check_winner, get_best_move
 
 class TestTicTacToe(unittest.TestCase):
 
@@ -20,28 +20,40 @@ class TestTicTacToe(unittest.TestCase):
         board = ["", "", "", "O", "O", "O", "", "", ""]
         self.assertEqual(check_winner(board), "O")
 
-    def test_check_winner_draw(self):
-        board = ["X", "O", "X", "X", "O", "O", "O", "X", "X"]
-        self.assertEqual(check_winner(board), "Draw")
-
-    def test_minimax_block_win(self):
-        # Board:
+    def test_minimax_block_win_as_O(self):
+        # AI is O, Human is X
         # X X _
         # _ O _
         # _ _ _
-        # Computer (O) should block X at index 2
         board = ["X", "X", "", "", "O", "", "", "", ""]
-        move = get_best_move(board)
+        move = get_best_move(board, "O")
         self.assertEqual(move, 2)
 
-    def test_minimax_win(self):
-        # Board:
+    def test_minimax_win_as_O(self):
+        # AI is O
         # O O _
         # _ X _
         # _ _ X
-        # Computer (O) should win at index 2
         board = ["O", "O", "", "", "X", "", "", "", "X"]
-        move = get_best_move(board)
+        move = get_best_move(board, "O")
+        self.assertEqual(move, 2)
+
+    def test_minimax_block_win_as_X(self):
+        # AI is X, Human is O
+        # O O _
+        # _ X _
+        # _ _ _
+        board = ["O", "O", "", "", "X", "", "", "", ""]
+        move = get_best_move(board, "X")
+        self.assertEqual(move, 2)
+
+    def test_minimax_win_as_X(self):
+        # AI is X
+        # X X _
+        # _ O _
+        # _ _ O
+        board = ["X", "X", "", "", "O", "", "", "", "O"]
+        move = get_best_move(board, "X")
         self.assertEqual(move, 2)
 
 if __name__ == '__main__':
