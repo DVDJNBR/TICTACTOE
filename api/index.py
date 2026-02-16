@@ -1,7 +1,6 @@
-from flask import Flask, request, jsonify, send_from_directory
-import os
+from flask import Flask, request, jsonify
 
-app = Flask(__name__, static_url_path='', static_folder='static')
+app = Flask(__name__)
 
 # Board is a list of 9 strings: "X", "O", or "" (empty string)
 # Representation indices:
@@ -77,10 +76,6 @@ def get_best_move(board):
                 move = i
     return move
 
-@app.route('/')
-def index():
-    return send_from_directory('static', 'index.html')
-
 @app.route('/api/health', methods=['GET'])
 def health():
     return jsonify({"status": "ok"})
@@ -107,6 +102,16 @@ def play():
     winner = check_winner(board)
 
     return jsonify({"board": board, "winner": winner})
+
+# Catch-all route for debugging Vercel path issues
+@app.route('/<path:path>')
+def catch_all(path):
+    return jsonify({
+        "message": "Path matched catch-all",
+        "path": path,
+        "base_url": request.base_url,
+        "script_root": request.script_root
+    }), 404
 
 if __name__ == '__main__':
     app.run(debug=True)
