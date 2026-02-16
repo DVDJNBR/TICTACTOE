@@ -18,6 +18,12 @@ Originally, the assignment was to create a Python script that generates a Tic-Ta
 | **Stack** | Pure Python Script | Python (Flask) Backend + REST API |
 | **Deployment** | Local Execution | Cloud Deployment (Vercel) |
 
+## 📸 Screenshots
+
+| Game Start | Gameplay |
+| :---: | :---: |
+| ![Game Start](screenshots/game_start.png) | ![Gameplay](screenshots/gameplay.png) |
+
 ## 🎮 Features
 
 - **Play vs Computer:** Challenge an AI that calculates the optimal move using the Minimax algorithm.
