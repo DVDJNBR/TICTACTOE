@@ -1,6 +1,7 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
+import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='', static_folder='static')
 
 # Board is a list of 9 strings: "X", "O", or "" (empty string)
 # Representation indices:
@@ -76,6 +77,10 @@ def get_best_move(board):
                 move = i
     return move
 
+@app.route('/')
+def index():
+    return send_from_directory('static', 'index.html')
+
 @app.route('/api/health', methods=['GET'])
 def health():
     return jsonify({"status": "ok"})
@@ -103,15 +108,11 @@ def play():
 
     return jsonify({"board": board, "winner": winner})
 
-# Catch-all route for debugging Vercel path issues
+# Add explicit route for static files if needed, but Flask handles it via static_folder usually
+# But for Vercel, having explicit routes helps debug
 @app.route('/<path:path>')
-def catch_all(path):
-    return jsonify({
-        "message": "Path matched catch-all",
-        "path": path,
-        "base_url": request.base_url,
-        "script_root": request.script_root
-    }), 404
+def serve_static(path):
+    return send_from_directory('static', path)
 
 if __name__ == '__main__':
     app.run(debug=True)

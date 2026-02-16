@@ -1,5 +1,5 @@
 import unittest
-from api.index import app, check_winner, get_best_move
+from index import app, check_winner, get_best_move
 
 class TestTicTacToe(unittest.TestCase):
 
