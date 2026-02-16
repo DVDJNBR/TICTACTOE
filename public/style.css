@@ -1,0 +1,117 @@
+:root {
+    --bg-color: #f0f2f5;
+    --text-color: #333;
+    --cell-bg: #ffffff;
+    --cell-hover: #f9f9f9;
+    --accent: #ff4757; /* Red for X */
+    --accent-o: #2ed573; /* Green for O */
+    --shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    max-width: 90vw;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    background: linear-gradient(45deg, var(--accent), var(--accent-o));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    margin-bottom: 1.5rem;
+    color: #666;
+}
+
+.status {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    min-height: 1.5rem;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 10px;
+    margin: 0 auto;
+}
+
+.cell {
+    background-color: var(--cell-bg);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+    user-select: none;
+    /* Emoji color override hack */
+    color: transparent;
+    text-shadow: 0 0 0 #333;
+}
+
+.cell:hover {
+    transform: scale(1.05);
+    background-color: var(--cell-hover);
+}
+
+.cell.x { text-shadow: 0 0 0 var(--accent); }
+.cell.o { text-shadow: 0 0 0 var(--accent-o); }
+
+.x-text {
+    color: transparent;
+    text-shadow: 0 0 0 var(--accent);
+}
+.o-text {
+    color: transparent;
+    text-shadow: 0 0 0 var(--accent-o);
+}
+
+.restart-btn {
+    margin-top: 2rem;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    background-color: var(--text-color);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.restart-btn:hover {
+    background-color: #555;
+}
+
+@media (max-width: 400px) {
+    .board {
+        grid-template-columns: repeat(3, 80px);
+        grid-template-rows: repeat(3, 80px);
+    }
+    .cell {
+        font-size: 2.5rem;
+    }
+}
