@@ -28,21 +28,21 @@ def check_winner(board):
 
     return None
 
-def minimax(board, depth, is_maximizing):
+def minimax(board, depth, is_maximizing, ai_player, human_player):
     """
     Minimax algorithm to find the optimal move.
     """
     winner = check_winner(board)
-    if winner == "O": return 10 - depth
-    if winner == "X": return depth - 10
+    if winner == ai_player: return 10 - depth
+    if winner == human_player: return depth - 10
     if winner == "Draw": return 0
 
     if is_maximizing:
         best_score = -float('inf')
         for i in range(9):
             if board[i] == "":
-                board[i] = "O"
-                score = minimax(board, depth + 1, False)
+                board[i] = ai_player
+                score = minimax(board, depth + 1, False, ai_player, human_player)
                 board[i] = ""
                 best_score = max(score, best_score)
         return best_score
@@ -50,16 +50,17 @@ def minimax(board, depth, is_maximizing):
         best_score = float('inf')
         for i in range(9):
             if board[i] == "":
-                board[i] = "X"
-                score = minimax(board, depth + 1, True)
+                board[i] = human_player
+                score = minimax(board, depth + 1, True, ai_player, human_player)
                 board[i] = ""
                 best_score = min(score, best_score)
         return best_score
 
-def get_best_move(board):
+def get_best_move(board, ai_player):
     """
-    Returns the best move index for 'O' (Computer).
+    Returns the best move index for the AI.
     """
+    human_player = "X" if ai_player == "O" else "O"
     best_score = -float('inf')
     move = -1
 
@@ -69,8 +70,8 @@ def get_best_move(board):
 
     for i in range(9):
         if board[i] == "":
-            board[i] = "O"
-            score = minimax(board, 0, False)
+            board[i] = ai_player
+            score = minimax(board, 0, False, ai_player, human_player)
             board[i] = ""
             if score > best_score:
                 best_score = score
@@ -89,6 +90,7 @@ def health():
 def play():
     data = request.get_json()
     board = data.get('board') # Expecting list of 9 strings
+    ai_player = data.get('aiPlayer', 'O') # Default to 'O' if not specified
 
     if not board or len(board) != 9:
         return jsonify({"error": "Invalid board state"}), 400
@@ -98,10 +100,10 @@ def play():
     if winner:
         return jsonify({"board": board, "winner": winner})
 
-    # Computer's turn (O)
-    move_index = get_best_move(board)
+    # AI's turn
+    move_index = get_best_move(board, ai_player)
     if move_index != -1:
-        board[move_index] = "O"
+        board[move_index] = ai_player
 
     # Check for winner after computer move
     winner = check_winner(board)

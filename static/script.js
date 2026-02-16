@@ -3,32 +3,72 @@ const statusElement = document.getElementById('status');
 const restartButton = document.getElementById('restart');
 let board = ["", "", "", "", "", "", "", "", ""];
 let gameActive = true;
+let humanPlayer = "X";
+let aiPlayer = "O";
+let currentPlayer = "X"; // Always tracks whose turn it is
 
 // Initialize cells
 document.querySelectorAll('.cell').forEach(cell => {
     cell.addEventListener('click', handleCellClick);
 });
 
-restartButton.addEventListener('click', restartGame);
+restartButton.addEventListener('click', startGame);
 
-// Initial status
-statusElement.innerHTML = "Your turn (<span class='x-text'>❌</span>)";
+function startGame() {
+    board = ["", "", "", "", "", "", "", "", ""];
+    gameActive = true;
+
+    // Randomize players
+    humanPlayer = Math.random() < 0.5 ? "X" : "O";
+    aiPlayer = humanPlayer === "X" ? "O" : "X";
+
+    // Randomize who starts
+    currentPlayer = Math.random() < 0.5 ? "X" : "O";
+
+    // Update UI initial state
+    const humanEmoji = humanPlayer === "X" ? "❌" : "⭕";
+    const humanClass = humanPlayer === "X" ? "x-text" : "o-text";
+
+    // Initially clear board
+    renderBoard();
+
+    if (currentPlayer === aiPlayer) {
+        statusElement.innerHTML = `You are <span class="${humanClass}">${humanEmoji}</span> - AI is thinking...`;
+        // AI starts
+        makeAiMove();
+    } else {
+        statusElement.innerHTML = `You are <span class="${humanClass}">${humanEmoji}</span> - Your turn`;
+    }
+}
 
 async function handleCellClick(e) {
     const cell = e.target;
     const index = parseInt(cell.getAttribute('data-index'));
 
-    if (board[index] !== "" || !gameActive) return;
+    if (board[index] !== "" || !gameActive || currentPlayer !== humanPlayer) return;
 
-    // Human move (optimistic UI update)
-    makeMove(index, "X");
-    statusElement.textContent = "Computer is thinking...";
+    // Human move
+    makeMove(index, humanPlayer);
+    currentPlayer = aiPlayer;
+
+    const humanEmoji = humanPlayer === "X" ? "❌" : "⭕";
+    const humanClass = humanPlayer === "X" ? "x-text" : "o-text";
+    statusElement.innerHTML = `You are <span class="${humanClass}">${humanEmoji}</span> - AI is thinking...`;
+
+    await makeAiMove();
+}
+
+async function makeAiMove() {
+    if (!gameActive) return;
 
     try {
         const response = await fetch('/api/play', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ board: board })
+            body: JSON.stringify({
+                board: board,
+                aiPlayer: aiPlayer
+            })
         });
 
         if (!response.ok) throw new Error('Network response was not ok');
@@ -42,7 +82,10 @@ async function handleCellClick(e) {
         if (data.winner) {
             handleGameOver(data.winner);
         } else {
-            statusElement.innerHTML = "Your turn (<span class='x-text'>❌</span>)";
+            currentPlayer = humanPlayer;
+            const humanEmoji = humanPlayer === "X" ? "❌" : "⭕";
+            const humanClass = humanPlayer === "X" ? "x-text" : "o-text";
+            statusElement.innerHTML = `You are <span class="${humanClass}">${humanEmoji}</span> - Your turn`;
         }
 
     } catch (error) {
@@ -76,14 +119,10 @@ function handleGameOver(winner) {
     } else {
         const winnerEmoji = winner === "X" ? "❌" : "⭕";
         const winnerClass = winner === "X" ? "x-text" : "o-text";
-        const winnerName = winner === "X" ? "You" : "AI";
+        const winnerName = winner === humanPlayer ? "You" : "AI";
         statusElement.innerHTML = `${winnerName} Won! <span class="${winnerClass}">${winnerEmoji}</span>`;
     }
 }
 
-function restartGame() {
-    board = ["", "", "", "", "", "", "", "", ""];
-    gameActive = true;
-    renderBoard();
-    statusElement.innerHTML = "Your turn (<span class='x-text'>❌</span>)";
-}
+// Start the game immediately on load
+startGame();
