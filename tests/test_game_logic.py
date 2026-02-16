@@ -1,7 +1,16 @@
 import unittest
-from api.index import check_winner, get_best_move, minimax
+from api.index import app, check_winner, get_best_move
 
 class TestTicTacToe(unittest.TestCase):
+
+    def setUp(self):
+        self.app = app.test_client()
+        self.app.testing = True
+
+    def test_health(self):
+        response = self.app.get('/api/health')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get_json(), {"status": "ok"})
 
     def test_check_winner_x(self):
         board = ["X", "X", "X", "", "", "", "", "", ""]
