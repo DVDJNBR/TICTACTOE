@@ -1,22 +1,29 @@
 # Tic-Tac-Toe vs AI (Python/Flask) ❌⭕
 
-This project is a modern reimagining of my very first Python project from coding school. Originally a simple CLI (Command Line Interface) game designed to learn Python functions, this version brings the classic Tic-Tac-Toe into the web browser with a clean UI and a smart AI opponent.
+This project is a modern web-based reimagining of my very first development project at **Simplon Roubaix** (Premier projet Tech IA).
 
-## 🌟 About the Project
+## 🌟 Context & Evolution
 
-The goal was to revisit the logic of Tic-Tac-Toe but wrap it in a lightweight, modern web application.
+Originally, the assignment was to create a Python script that generates a Tic-Tac-Toe game in the terminal. The requirements were:
+- **Data Structure:** A dictionary representing the 9 grid cells (keys A1-C3).
+- **Logic:** Functions to start the game, randomize the starting player, handle turns, and check for win/draw conditions.
+- **Interface:** Command Line Interface (CLI).
 
-- **Backend:** Python (Flask) handling the game logic and AI.
-- **AI:** Implements the **Minimax algorithm**, making the computer an unbeatable opponent (or at least very hard to beat!).
-- **Frontend:** Vanilla HTML/CSS/JavaScript with a focus on a clean, "light" design using emojis for game pieces.
-- **Deployment:** Optimized for Vercel serverless deployment.
+**This new version** takes those fundamental concepts and elevates them into a full-stack web application to demonstrate my growth as a developer.
+
+| Feature | Original Project (CLI) | This Project (Web App) |
+| :--- | :--- | :--- |
+| **Interface** | Terminal text output | Modern Responsive Web UI (HTML/CSS) |
+| **Opponent** | Local PvP (Hotseat) | **Unbeatable AI** (Minimax Algorithm) |
+| **Stack** | Pure Python Script | Python (Flask) Backend + REST API |
+| **Deployment** | Local Execution | Cloud Deployment (Vercel) |
 
 ## 🎮 Features
 
-- **Play vs Computer:** Challenge an AI that calculates the optimal move.
+- **Play vs Computer:** Challenge an AI that calculates the optimal move using the Minimax algorithm.
 - **Randomized Start:** The game randomly assigns you 'X' or 'O' and decides who goes first.
-- **Responsive UI:** Works on desktop and mobile.
-- **Clean Aesthetic:** Minimalist design using system fonts and emojis.
+- **Clean Aesthetic:** Minimalist design using system fonts and emojis for a lightweight feel.
+- **Responsive:** Works seamlessly on desktop and mobile browsers.
 
 ## 🚀 How to Run Locally
 
@@ -53,4 +60,4 @@ This project is configured for seamless deployment on [Vercel](https://vercel.co
 The `vercel.json` file ensures that all requests are routed to the Flask backend, which serves both the API and the static frontend files.
 
 ---
-*Refactoring my first CLI project into a full-stack web app.*
+*From `print("Hello World")` to Full Stack AI Web Apps.*
