@@ -1,6 +1,7 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
+import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='', static_folder='static')
 
 # Board is a list of 9 strings: "X", "O", or "" (empty string)
 # Representation indices:
@@ -75,6 +76,10 @@ def get_best_move(board):
                 best_score = score
                 move = i
     return move
+
+@app.route('/')
+def index():
+    return send_from_directory('static', 'index.html')
 
 @app.route('/api/health', methods=['GET'])
 def health():
