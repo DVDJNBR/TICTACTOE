@@ -1,11 +1,24 @@
 const boardElement = document.getElementById('board');
 const statusElement = document.getElementById('status');
 const restartButton = document.getElementById('restart');
+const themeToggle = document.getElementById('theme-toggle');
+
 let board = ["", "", "", "", "", "", "", "", ""];
 let gameActive = true;
 let humanPlayer = "X";
 let aiPlayer = "O";
 let currentPlayer = "X"; // Always tracks whose turn it is
+
+// Theme Initialization
+const savedTheme = localStorage.getItem('theme') || 'dark';
+document.documentElement.setAttribute('data-theme', savedTheme);
+
+themeToggle.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+});
 
 // Initialize cells
 document.querySelectorAll('.cell').forEach(cell => {
@@ -13,6 +26,13 @@ document.querySelectorAll('.cell').forEach(cell => {
 });
 
 restartButton.addEventListener('click', startGame);
+
+function updateHoverState() {
+    boardElement.classList.remove('hover-x', 'hover-o');
+    if (gameActive && currentPlayer === humanPlayer) {
+        boardElement.classList.add(`hover-${humanPlayer.toLowerCase()}`);
+    }
+}
 
 function startGame() {
     board = ["", "", "", "", "", "", "", "", ""];
@@ -26,18 +46,19 @@ function startGame() {
     currentPlayer = Math.random() < 0.5 ? "X" : "O";
 
     // Update UI initial state
-    const humanEmoji = humanPlayer === "X" ? "❌" : "⭕";
+    const humanSymbol = humanPlayer;
     const humanClass = humanPlayer === "X" ? "x-text" : "o-text";
 
     // Initially clear board
     renderBoard();
+    updateHoverState();
 
     if (currentPlayer === aiPlayer) {
-        statusElement.innerHTML = `You are <span class="${humanClass}">${humanEmoji}</span> - AI is thinking...`;
+        statusElement.innerHTML = `You are <span class="${humanClass}">${humanSymbol}</span> - AI is thinking...`;
         // AI starts
         makeAiMove();
     } else {
-        statusElement.innerHTML = `You are <span class="${humanClass}">${humanEmoji}</span> - Your turn`;
+        statusElement.innerHTML = `You are <span class="${humanClass}">${humanSymbol}</span> - Your turn`;
     }
 }
 
@@ -50,10 +71,11 @@ async function handleCellClick(e) {
     // Human move
     makeMove(index, humanPlayer);
     currentPlayer = aiPlayer;
+    updateHoverState();
 
-    const humanEmoji = humanPlayer === "X" ? "❌" : "⭕";
+    const humanSymbol = humanPlayer;
     const humanClass = humanPlayer === "X" ? "x-text" : "o-text";
-    statusElement.innerHTML = `You are <span class="${humanClass}">${humanEmoji}</span> - AI is thinking...`;
+    statusElement.innerHTML = `You are <span class="${humanClass}">${humanSymbol}</span> - AI is thinking...`;
 
     await makeAiMove();
 }
@@ -83,15 +105,17 @@ async function makeAiMove() {
             handleGameOver(data.winner);
         } else {
             currentPlayer = humanPlayer;
-            const humanEmoji = humanPlayer === "X" ? "❌" : "⭕";
+            updateHoverState();
+            const humanSymbol = humanPlayer;
             const humanClass = humanPlayer === "X" ? "x-text" : "o-text";
-            statusElement.innerHTML = `You are <span class="${humanClass}">${humanEmoji}</span> - Your turn`;
+            statusElement.innerHTML = `You are <span class="${humanClass}">${humanSymbol}</span> - Your turn`;
         }
 
     } catch (error) {
         console.error('Error:', error);
         statusElement.textContent = "Error communicating with server.";
         gameActive = false;
+        updateHoverState();
     }
 }
 
@@ -104,7 +128,7 @@ function renderBoard() {
     const cells = document.querySelectorAll('.cell');
     cells.forEach((cell, i) => {
         const val = board[i];
-        cell.textContent = val === "X" ? "❌" : (val === "O" ? "⭕" : "");
+        cell.textContent = val === "X" ? "X" : (val === "O" ? "O" : "");
 
         cell.className = 'cell'; // reset classes
         if (val === "X") cell.classList.add('x');
@@ -114,13 +138,14 @@ function renderBoard() {
 
 function handleGameOver(winner) {
     gameActive = false;
+    updateHoverState();
     if (winner === "Draw") {
-        statusElement.textContent = "It's a Draw! 🤝";
+        statusElement.textContent = "It's a Draw!";
     } else {
-        const winnerEmoji = winner === "X" ? "❌" : "⭕";
+        const winnerSymbol = winner === "X" ? "X" : "O";
         const winnerClass = winner === "X" ? "x-text" : "o-text";
         const winnerName = winner === humanPlayer ? "You" : "AI";
-        statusElement.innerHTML = `${winnerName} Won! <span class="${winnerClass}">${winnerEmoji}</span>`;
+        statusElement.innerHTML = `${winnerName} Won! <span class="${winnerClass}">${winnerSymbol}</span>`;
     }
 }
 
