@@ -98,8 +98,10 @@ h1 {
     grid-template-rows: repeat(3, 110px);
     gap: 15px;
     margin: 0 auto;
+    width: fit-content;
     perspective: 1000px;
     transform-style: preserve-3d;
+    justify-content: center;
 }
 
 /* 3D Cell Design */
