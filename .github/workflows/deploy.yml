@@ -21,5 +21,12 @@ jobs:
           script: |
             cd /home/ubuntu/tictactoe
             git pull origin main
-            ./venv/bin/pip install -r requirements.txt
+            # Create venv if it doesn't exist
+            if [ ! -d "venv" ]; then
+              python3 -m venv venv
+            fi
+            # Use python -m pip to be more robust
+            ./venv/bin/python3 -m pip install --upgrade pip
+            ./venv/bin/python3 -m pip install -r requirements.txt
             sudo systemctl restart tictactoe
+            sudo systemctl status tictactoe --no-pager

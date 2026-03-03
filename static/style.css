@@ -15,16 +15,16 @@
 }
 
 [data-theme="light"] {
-    --bg-color: #e0e5ec;
+    --bg-color: #f0f4f8;
     --text-color: #1a1a2e;
-    --cell-bg: #e0e5ec;
-    --cell-border: rgba(0, 0, 0, 0.1);
+    --cell-bg: #e6ebf1;
+    --cell-border: rgba(255, 255, 255, 0.8);
     --accent: #0077ff;
     --accent-glow: rgba(0, 119, 255, 0.8);
     --accent-o: #ff3333;
     --accent-o-glow: rgba(255, 51, 51, 0.8);
-    --panel-bg: rgba(255, 255, 255, 0.6);
-    --btn-bg: #e0e5ec;
+    --panel-bg: rgba(255, 255, 255, 0.7);
+    --btn-bg: #e6ebf1;
     --btn-border: #ccc;
 }
 
@@ -42,7 +42,7 @@ body {
 }
 
 [data-theme="light"] body {
-    background: radial-gradient(circle at 50% 50%, #ffffff 0%, #e0e5ec 100%);
+    background: radial-gradient(circle at 50% 50%, #ffffff 0%, #dbe3eb 100%);
 }
 
 .container {
@@ -126,9 +126,9 @@ h1 {
 
 [data-theme="light"] .cell {
     box-shadow: 
-        5px 5px 15px rgba(163, 177, 198, 0.3), 
-        -5px -5px 15px rgba(255, 255, 255, 0.9);
-    border-color: rgba(255, 255, 255, 0.6);
+        8px 8px 16px rgba(163, 177, 198, 0.3), 
+        -8px -8px 16px rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.8);
 }
 
 .cell:hover {
@@ -137,7 +137,7 @@ h1 {
 }
 
 [data-theme="light"] .cell:hover {
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.5);
 }
 
 .cell:active {
@@ -149,8 +149,8 @@ h1 {
 
 [data-theme="light"] .cell:active {
     box-shadow: 
-        inset 2px 2px 5px rgba(163, 177, 198, 0.4), 
-        inset -2px -2px 5px rgba(255, 255, 255, 1);
+        inset 4px 4px 8px rgba(163, 177, 198, 0.4), 
+        inset -4px -4px 8px rgba(255, 255, 255, 0.9);
 }
 
 /* X styles */
