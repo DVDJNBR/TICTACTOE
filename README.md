@@ -20,9 +20,11 @@ Originally, the assignment was to create a Python script that generates a Tic-Ta
 
 ## 📸 Screenshots
 
-| Game Start | Gameplay |
-| :---: | :---: |
-| ![Game Start](screenshots/game_start.png) | ![Gameplay](screenshots/gameplay.png) |
+<p align="center">
+  <img src="screenshots/game_start.png" width="30%" />
+  <img src="screenshots/gameplay.png" width="30%" />
+  <img src="screenshots/game_end.png" width="30%" />
+</p>
 
 ## 🎮 Features
 
