@@ -167,11 +167,11 @@ function renderAsciiBoard() {
 
     // Using standard spacing
     const asciiText = `
- ${e(b[0][0])} | ${e(b[0][1])} | ${e(b[0][2])}
----|---|---
- ${e(b[1][0])} | ${e(b[1][1])} | ${e(b[1][2])}
----|---|---
- ${e(b[2][0])} | ${e(b[2][1])} | ${e(b[2][2])}
+ ${e(b[0][0])} │ ${e(b[0][1])} │ ${e(b[0][2])}
+───┼───┼───
+ ${e(b[1][0])} │ ${e(b[1][1])} │ ${e(b[1][2])}
+───┼───┼───
+ ${e(b[2][0])} │ ${e(b[2][1])} │ ${e(b[2][2])}
 `.trim();
 
     asciiBoard.textContent = asciiText;

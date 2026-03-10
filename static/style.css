@@ -608,7 +608,7 @@ input:checked + .slider:before {
     margin: 0;
     font-family: monospace;
     font-size: 2.5rem;
-    line-height: 1.5;
+    line-height: 1.15;
     white-space: pre;
     text-align: center;
     color: inherit;
