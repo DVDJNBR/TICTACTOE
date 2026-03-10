@@ -2,12 +2,35 @@ const boardElement = document.getElementById('board');
 const statusElement = document.getElementById('status');
 const restartButton = document.getElementById('restart');
 const themeToggle = document.getElementById('theme-toggle');
+const designToggle = document.getElementById('design-toggle');
 
 let board = ["", "", "", "", "", "", "", "", ""];
 let gameActive = true;
 let humanPlayer = "X";
 let aiPlayer = "O";
 let currentPlayer = "X"; // Always tracks whose turn it is
+
+// Design Initialization
+let currentDesign = localStorage.getItem('design') || 'original';
+document.documentElement.setAttribute('data-design', currentDesign);
+updateDesignToggleButton();
+
+designToggle.addEventListener('click', () => {
+    currentDesign = currentDesign === 'original' ? 'upgraded' : 'original';
+    document.documentElement.setAttribute('data-design', currentDesign);
+    localStorage.setItem('design', currentDesign);
+    updateDesignToggleButton();
+    renderBoard();
+    updateStatusUI();
+});
+
+function updateDesignToggleButton() {
+    if (currentDesign === 'original') {
+        designToggle.textContent = 'Switch to UPGRADED';
+    } else {
+        designToggle.textContent = 'Switch to ORIGINAL';
+    }
+}
 
 // Theme Initialization
 const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -19,6 +42,28 @@ themeToggle.addEventListener('click', () => {
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
 });
+
+function getSymbol(player) {
+    if (currentDesign === 'original') {
+        return player === 'X' ? '❌' : '⭕';
+    }
+    return player;
+}
+
+function updateStatusUI() {
+    if (!gameActive) {
+        // Handled in handleGameOver
+        return;
+    }
+    const humanSymbol = getSymbol(humanPlayer);
+    const humanClass = humanPlayer === "X" ? "x-text" : "o-text";
+
+    if (currentPlayer === aiPlayer) {
+        statusElement.innerHTML = `You are <span class="${humanClass}">${humanSymbol}</span> - AI is thinking...`;
+    } else {
+        statusElement.innerHTML = `You are <span class="${humanClass}">${humanSymbol}</span> - Your turn`;
+    }
+}
 
 // Initialize cells
 document.querySelectorAll('.cell').forEach(cell => {
@@ -45,20 +90,14 @@ function startGame() {
     // Randomize who starts
     currentPlayer = Math.random() < 0.5 ? "X" : "O";
 
-    // Update UI initial state
-    const humanSymbol = humanPlayer;
-    const humanClass = humanPlayer === "X" ? "x-text" : "o-text";
-
     // Initially clear board
     renderBoard();
     updateHoverState();
+    updateStatusUI();
 
     if (currentPlayer === aiPlayer) {
-        statusElement.innerHTML = `You are <span class="${humanClass}">${humanSymbol}</span> - AI is thinking...`;
         // AI starts
         makeAiMove();
-    } else {
-        statusElement.innerHTML = `You are <span class="${humanClass}">${humanSymbol}</span> - Your turn`;
     }
 }
 
@@ -72,10 +111,7 @@ async function handleCellClick(e) {
     makeMove(index, humanPlayer);
     currentPlayer = aiPlayer;
     updateHoverState();
-
-    const humanSymbol = humanPlayer;
-    const humanClass = humanPlayer === "X" ? "x-text" : "o-text";
-    statusElement.innerHTML = `You are <span class="${humanClass}">${humanSymbol}</span> - AI is thinking...`;
+    updateStatusUI();
 
     await makeAiMove();
 }
@@ -106,9 +142,7 @@ async function makeAiMove() {
         } else {
             currentPlayer = humanPlayer;
             updateHoverState();
-            const humanSymbol = humanPlayer;
-            const humanClass = humanPlayer === "X" ? "x-text" : "o-text";
-            statusElement.innerHTML = `You are <span class="${humanClass}">${humanSymbol}</span> - Your turn`;
+            updateStatusUI();
         }
 
     } catch (error) {
@@ -128,7 +162,11 @@ function renderBoard() {
     const cells = document.querySelectorAll('.cell');
     cells.forEach((cell, i) => {
         const val = board[i];
-        cell.textContent = val === "X" ? "X" : (val === "O" ? "O" : "");
+        if (val === "X" || val === "O") {
+            cell.textContent = getSymbol(val);
+        } else {
+            cell.textContent = "";
+        }
 
         cell.className = 'cell'; // reset classes
         if (val === "X") cell.classList.add('x');
@@ -142,7 +180,7 @@ function handleGameOver(winner) {
     if (winner === "Draw") {
         statusElement.textContent = "It's a Draw!";
     } else {
-        const winnerSymbol = winner === "X" ? "X" : "O";
+        const winnerSymbol = getSymbol(winner);
         const winnerClass = winner === "X" ? "x-text" : "o-text";
         const winnerName = winner === humanPlayer ? "You" : "AI";
         statusElement.innerHTML = `${winnerName} Won! <span class="${winnerClass}">${winnerSymbol}</span>`;
