@@ -392,3 +392,187 @@ h1 {
         font-size: 2.2rem;
     }
 }
+
+/* --- TOP BAR & DESIGN TOGGLE --- */
+.top-bar {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.design-toggle-btn {
+    background: linear-gradient(135deg, #ff007a, #7a00ff);
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 0, 122, 0.4);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.design-toggle-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(122, 0, 255, 0.6);
+}
+
+.design-toggle-btn:active {
+    transform: translateY(1px) scale(0.98);
+}
+
+/* --- ORIGINAL DESIGN OVERRIDES --- */
+[data-design="original"] body {
+    font-family: sans-serif;
+    background: #f4f4f9;
+    color: #555;
+}
+
+[data-design="original"] .container {
+    background: none;
+    backdrop-filter: none;
+    border: none;
+    box-shadow: none;
+    transform: none;
+}
+
+[data-design="original"] .container:hover {
+    transform: none;
+}
+
+[data-design="original"] h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    background: none;
+    -webkit-background-clip: initial;
+    -webkit-text-fill-color: initial;
+    color: #333;
+    text-shadow: none;
+    letter-spacing: normal;
+}
+
+[data-design="original"] .cell {
+    background: #fff;
+    border: 2px solid #aaa;
+    border-radius: 0;
+    box-shadow: none;
+    transform: none;
+    color: initial; /* Emoji color */
+    text-shadow: none;
+}
+
+[data-design="original"] .cell:hover {
+    transform: none;
+    background: #eaeaea;
+}
+
+[data-design="original"] .cell:active {
+    transform: none;
+    box-shadow: none;
+}
+
+[data-design="original"] .cell.x,
+[data-design="original"] .cell.o {
+    color: initial;
+    text-shadow: none;
+    border-color: #aaa;
+    box-shadow: none;
+}
+
+[data-design="original"] .board.hover-x .cell:not(.x):not(.o):hover,
+[data-design="original"] .board.hover-o .cell:not(.x):not(.o):hover {
+    border-color: #888;
+    box-shadow: none;
+}
+
+[data-design="original"] .board.hover-x .cell:not(.x):not(.o):hover::before,
+[data-design="original"] .board.hover-o .cell:not(.x):not(.o):hover::before {
+    content: none;
+}
+
+[data-design="original"] .restart-btn {
+    background: #e0e0e0;
+    color: #333;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    box-shadow: none;
+    font-family: sans-serif;
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+    text-transform: none;
+    font-weight: normal;
+}
+
+[data-design="original"] .restart-btn::before {
+    content: none;
+}
+
+[data-design="original"] .restart-btn:hover {
+    transform: none;
+    box-shadow: none;
+    background: #d0d0d0;
+    color: #222;
+    border-color: #888;
+}
+
+[data-design="original"] .github-btn {
+    background: #f0f0f0;
+    color: #333;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    box-shadow: none;
+    font-weight: normal;
+}
+
+[data-design="original"] .github-btn:hover {
+    background: #e0e0e0;
+    color: #000;
+    box-shadow: none;
+    transform: none;
+}
+
+[data-design="original"] .theme-toggle-btn {
+    display: none;
+}
+
+[data-design="original"] .help-icon {
+    background: #eee;
+    color: #555;
+    border: 1px solid #aaa;
+    box-shadow: none;
+}
+
+[data-design="original"] .help-container:hover .help-icon {
+    background: #ddd;
+    color: #222;
+    transform: none;
+    box-shadow: none;
+    border-color: #888;
+}
+
+[data-design="original"] .tooltip {
+    background: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+[data-design="original"] .tooltip h3 {
+    color: #333;
+    text-shadow: none;
+    border-bottom: 1px solid #eee;
+}
+
+[data-design="original"] .x-text,
+[data-design="original"] .o-text {
+    color: inherit;
+    text-shadow: none;
+}
