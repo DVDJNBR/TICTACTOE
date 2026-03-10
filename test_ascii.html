@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html data-design="original">
+<head>
+<style>
+/* ... copy relevant css ... */
+body { background: #000; color: #ccc; font-family: monospace; }
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 80px);
+    grid-template-rows: repeat(3, 80px);
+    gap: 0;
+    margin: 50px auto;
+    width: max-content;
+}
+
+.cell {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    transform: none;
+    color: initial;
+    text-shadow: none;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    line-height: 1;
+}
+
+.cell:not(:nth-child(3n))::after {
+    content: "|";
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 2rem;
+    z-index: 1;
+    font-weight: normal;
+}
+
+.cell:not(:nth-last-child(-n+3))::before {
+    content: "_ _ _";
+    position: absolute;
+    bottom: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #aaa;
+    letter-spacing: 2px; /* Spaces between underscores */
+    width: 100%;
+    text-align: center;
+    font-size: 1.5rem;
+    z-index: 0;
+    white-space: nowrap;
+}
+</style>
+</head>
+<body>
+<div class="board">
+    <div class="cell">❌</div><div class="cell">⭕</div><div class="cell">❌</div>
+    <div class="cell"></div><div class="cell">❌</div><div class="cell"></div>
+    <div class="cell">⭕</div><div class="cell"></div><div class="cell">⭕</div>
+</div>
+</body>
+</html>

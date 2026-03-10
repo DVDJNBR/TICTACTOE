@@ -253,21 +253,51 @@ h1 {
 }
 
 .theme-toggle-btn {
-    background: none;
-    border: none;
-    color: var(--text-color);
+    background: transparent;
+    border: 1px solid #555;
+    color: #888;
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
-    filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
+    border-radius: 0;
+    filter: none;
+    width: 32px;
+    height: 32px;
 }
 
 .theme-toggle-btn:hover {
+    color: #fff;
+    background: #222;
+    border-color: #aaa;
+    transform: none;
+    filter: none;
+}
+
+[data-design="original"] .theme-toggle-btn {
+    border: none;
+    color: var(--text-color);
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    padding: 8px;
+    width: auto;
+    height: auto;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"][data-design="original"] .theme-toggle-btn {
+    background: rgba(255, 255, 255, 0.6);
+    border-color: rgba(0, 0, 0, 0.1);
+    color: #111;
+}
+
+[data-design="original"] .theme-toggle-btn:hover {
     color: var(--accent);
-    transform: rotate(45deg) scale(1.2);
+    transform: rotate(45deg) scale(1.1);
     filter: drop-shadow(0 0 10px var(--accent-glow));
 }
 
@@ -393,47 +423,36 @@ h1 {
     }
 }
 
-/* --- DESIGN TOGGLE SWITCH (Bottom Right) --- */
-.design-switch-container {
+/* --- BOTTOM CONTROLS (Theme & Design Switch) --- */
+.bottom-controls {
     position: fixed;
     bottom: 20px;
     right: 20px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
     z-index: 1000;
-    background: rgba(0, 0, 0, 0.4);
-    padding: 8px 12px;
-    border-radius: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
 }
 
-[data-theme="light"] .design-switch-container {
-    background: rgba(255, 255, 255, 0.6);
-    border-color: rgba(0, 0, 0, 0.1);
-}
-
-[data-design="original"] .design-switch-container {
+/* Base styles for the bottom controls (used in upgraded design but looking archaic) */
+.design-switch-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     background: transparent;
+    padding: 0;
+    border-radius: 0;
     border: none;
     backdrop-filter: none;
-    border-radius: 0;
-    padding: 0;
 }
 
 .design-label {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: var(--text-color);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-[data-design="original"] .design-label {
     font-family: monospace;
+    font-size: 0.8rem;
+    font-weight: normal;
     color: #888;
+    letter-spacing: normal;
+    text-transform: none;
 }
 
 .switch {
@@ -456,12 +475,10 @@ h1 {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #333;
+    background-color: #222;
+    border: 1px solid #555;
     transition: .4s;
-}
-
-[data-theme="light"] .slider {
-    background-color: #ccc;
+    border-radius: 0;
 }
 
 .slider:before {
@@ -469,58 +486,83 @@ h1 {
     content: "";
     height: 16px;
     width: 16px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
+    left: 3px;
+    bottom: 3px;
+    background-color: #aaa;
     transition: .4s;
-    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    box-shadow: none;
+    border-radius: 0;
 }
 
 input:checked + .slider {
-    background: linear-gradient(135deg, var(--accent), var(--accent-o));
+    background: #444;
 }
 
 input:focus + .slider {
-    box-shadow: 0 0 10px var(--accent-glow);
+    box-shadow: none;
 }
 
 input:checked + .slider:before {
     transform: translateX(22px);
 }
 
-.slider.round {
-    border-radius: 24px;
+/* Original Design overrides: switches look modern/futuristic when archaic design is active */
+[data-design="original"] .design-switch-container {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 8px 12px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
 }
 
-.slider.round:before {
-    border-radius: 50%;
+[data-theme="light"][data-design="original"] .design-switch-container {
+    background: rgba(255, 255, 255, 0.6);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-design="original"] .design-label {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    color: var(--text-color);
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
 [data-design="original"] .slider {
-    background-color: #222;
-    border: 1px solid #555;
-    border-radius: 0;
+    background-color: #333;
+    border: none;
+    border-radius: 24px;
+}
+
+[data-theme="light"][data-design="original"] .slider {
+    background-color: #ccc;
 }
 
 [data-design="original"] .slider:before {
-    background-color: #aaa;
-    border-radius: 0;
-    box-shadow: none;
-    bottom: 3px;
-    left: 3px;
+    background-color: white;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    border-radius: 50%;
+    left: 4px;
+    bottom: 4px;
 }
 
 [data-design="original"] input:checked + .slider {
-    background: #444;
+    background: linear-gradient(135deg, var(--accent), var(--accent-o));
 }
 
 [data-design="original"] input:focus + .slider {
-    box-shadow: none;
+    box-shadow: 0 0 10px var(--accent-glow);
 }
 
 /* --- ORIGINAL DESIGN OVERRIDES --- */
 [data-design="original"] body {
     font-family: monospace;
+}
+[data-design="original"][data-theme="light"] body {
+    background: #fff;
+    color: #000;
+}
+[data-design="original"][data-theme="dark"] body {
     background: #000;
     color: #ccc;
 }
@@ -568,31 +610,34 @@ input:checked + .slider:before {
     justify-content: center;
     align-items: center;
     font-size: 3rem; /* Increase emoji size slightly to fit terminal theme better */
+    line-height: 1;
 }
 
 [data-design="original"] .cell:not(:nth-child(3n))::after {
     content: "|";
     position: absolute;
-    right: -10px; /* Adjust slightly for better alignment */
+    right: -10px;
     top: 50%;
     transform: translateY(-50%);
-    color: #aaa;
+    color: inherit;
     font-size: 2rem;
     z-index: 1;
+    font-weight: normal;
 }
 
 [data-design="original"] .cell:not(:nth-last-child(-n+3))::before {
-    content: "_______";
+    content: "_ _ _";
     position: absolute;
-    bottom: -18px; /* Push down to clear cell content */
+    bottom: -25px;
     left: 50%;
     transform: translateX(-50%);
-    color: #aaa;
-    letter-spacing: -1px;
-    width: 140%; /* Wider to cover the columns better */
+    color: inherit;
+    letter-spacing: 2px;
+    width: 100%;
     text-align: center;
     font-size: 1.5rem;
     z-index: 0;
+    white-space: nowrap;
 }
 
 [data-design="original"] .cell:hover {
@@ -621,13 +666,13 @@ input:checked + .slider:before {
 
 [data-design="original"] .board.hover-x .cell:not(.x):not(.o):hover::before,
 [data-design="original"] .board.hover-o .cell:not(.x):not(.o):hover::before {
-    content: none;
+    /* Do not hide the border ::before in original mode to keep the grid */
 }
 
 [data-design="original"] .restart-btn {
     background: transparent;
-    color: #ccc;
-    border: 1px solid #555;
+    color: inherit;
+    border: 1px solid currentColor;
     border-radius: 0;
     box-shadow: none;
     font-family: monospace;
@@ -644,15 +689,15 @@ input:checked + .slider:before {
 [data-design="original"] .restart-btn:hover {
     transform: none;
     box-shadow: none;
-    background: #222;
-    color: #fff;
-    border-color: #aaa;
+    background: currentColor;
+    color: var(--bg-color);
+    border-color: currentColor;
 }
 
 [data-design="original"] .github-btn {
     background: transparent;
-    color: #ccc;
-    border: 1px solid #555;
+    color: inherit;
+    border: 1px solid currentColor;
     border-radius: 0;
     box-shadow: none;
     font-weight: normal;
@@ -664,10 +709,6 @@ input:checked + .slider:before {
     color: #fff;
     box-shadow: none;
     transform: none;
-}
-
-[data-design="original"] .theme-toggle-btn {
-    display: none;
 }
 
 [data-design="original"] .help-icon {
