@@ -13,24 +13,15 @@ let currentPlayer = "X"; // Always tracks whose turn it is
 // Design Initialization
 let currentDesign = localStorage.getItem('design') || 'original';
 document.documentElement.setAttribute('data-design', currentDesign);
-updateDesignToggleButton();
+designToggle.checked = currentDesign === 'upgraded';
 
-designToggle.addEventListener('click', () => {
-    currentDesign = currentDesign === 'original' ? 'upgraded' : 'original';
+designToggle.addEventListener('change', (e) => {
+    currentDesign = e.target.checked ? 'upgraded' : 'original';
     document.documentElement.setAttribute('data-design', currentDesign);
     localStorage.setItem('design', currentDesign);
-    updateDesignToggleButton();
     renderBoard();
     updateStatusUI();
 });
-
-function updateDesignToggleButton() {
-    if (currentDesign === 'original') {
-        designToggle.textContent = 'Switch to UPGRADED';
-    } else {
-        designToggle.textContent = 'Switch to ORIGINAL';
-    }
-}
 
 // Theme Initialization
 const savedTheme = localStorage.getItem('theme') || 'dark';
