@@ -149,34 +149,6 @@ function makeMove(index, player) {
     renderBoard();
 }
 
-function renderAsciiBoard() {
-    const asciiBoard = document.getElementById('ascii-board');
-    if (!asciiBoard) return;
-
-    // Map board array to 2D
-    const b = [
-        [board[0], board[1], board[2]],
-        [board[3], board[4], board[5]],
-        [board[6], board[7], board[8]]
-    ];
-
-    const e = (val) => {
-        if (!val) return ' '; // normal space
-        return val;
-    };
-
-    // Using standard spacing
-    const asciiText = `
- ${e(b[0][0])} │ ${e(b[0][1])} │ ${e(b[0][2])}
-───┼───┼───
- ${e(b[1][0])} │ ${e(b[1][1])} │ ${e(b[1][2])}
-───┼───┼───
- ${e(b[2][0])} │ ${e(b[2][1])} │ ${e(b[2][2])}
-`.trim();
-
-    asciiBoard.textContent = asciiText;
-}
-
 function renderBoard() {
     const cells = document.querySelectorAll('.cell');
     cells.forEach((cell, i) => {
@@ -191,8 +163,6 @@ function renderBoard() {
         if (val === "X") cell.classList.add('x');
         if (val === "O") cell.classList.add('o');
     });
-
-    renderAsciiBoard();
 }
 
 function handleGameOver(winner) {
