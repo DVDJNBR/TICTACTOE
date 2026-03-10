@@ -590,10 +590,43 @@ input:checked + .slider:before {
     letter-spacing: normal;
 }
 
+.board-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: fit-content;
+}
+
+#ascii-board {
+    display: none;
+}
+
+[data-design="original"] #ascii-board {
+    display: block;
+    margin: 0;
+    font-family: monospace;
+    font-size: 2.5rem;
+    line-height: 1.5;
+    white-space: pre;
+    text-align: center;
+    color: inherit;
+    pointer-events: none; /* Let clicks pass through */
+}
+
 [data-design="original"] .board {
-    grid-template-columns: repeat(3, 80px);
-    grid-template-rows: repeat(3, 80px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* 3x5 grid to match the 5 rows of ascii text */
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     gap: 0;
+    opacity: 0; /* Make transparent but clickable */
+    z-index: 10;
 }
 
 [data-design="original"] .cell {
@@ -602,42 +635,23 @@ input:checked + .slider:before {
     border-radius: 0;
     box-shadow: none;
     transform: none;
-    color: initial; /* Emoji color */
+    color: transparent; /* Text is drawn by the ascii board */
     text-shadow: none;
     position: relative;
     box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 3rem; /* Increase emoji size slightly to fit terminal theme better */
-    line-height: 1;
-}
-
-[data-design="original"] .cell:not(:nth-child(3n))::after {
-    content: "|";
-    position: absolute;
-    right: -10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: inherit;
-    font-size: 2rem;
-    z-index: 1;
-    font-weight: normal;
-}
-
-[data-design="original"] .cell:not(:nth-last-child(-n+3))::before {
-    content: "_ _ _";
-    position: absolute;
-    bottom: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: inherit;
-    letter-spacing: 2px;
+    cursor: pointer;
     width: 100%;
-    text-align: center;
-    font-size: 1.5rem;
-    z-index: 0;
-    white-space: nowrap;
+    height: 100%;
+}
+
+/* Position cells correctly in the 3x5 grid */
+[data-design="original"] .cell:nth-child(-n+3) { grid-row: 1; }
+[data-design="original"] .cell:nth-child(n+4):nth-child(-n+6) { grid-row: 3; }
+[data-design="original"] .cell:nth-child(n+7) { grid-row: 5; }
+
+[data-design="original"] .cell::after,
+[data-design="original"] .cell::before {
+    content: none !important;
 }
 
 [data-design="original"] .cell:hover {
@@ -660,13 +674,14 @@ input:checked + .slider:before {
 
 [data-design="original"] .board.hover-x .cell:not(.x):not(.o):hover,
 [data-design="original"] .board.hover-o .cell:not(.x):not(.o):hover {
-    border-color: #888;
+    border: none;
     box-shadow: none;
+    background: rgba(128, 128, 128, 0.2); /* Slight highlight on hover instead of border */
 }
 
 [data-design="original"] .board.hover-x .cell:not(.x):not(.o):hover::before,
 [data-design="original"] .board.hover-o .cell:not(.x):not(.o):hover::before {
-    /* Do not hide the border ::before in original mode to keep the grid */
+    content: none !important;
 }
 
 [data-design="original"] .restart-btn {
