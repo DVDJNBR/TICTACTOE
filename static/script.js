@@ -24,7 +24,11 @@ designToggle.addEventListener('change', (e) => {
 });
 
 // Theme Initialization
-const savedTheme = localStorage.getItem('theme') || 'light';
+let savedTheme = localStorage.getItem('theme');
+if (!savedTheme) {
+    savedTheme = 'light';
+    localStorage.setItem('theme', 'light');
+}
 document.documentElement.setAttribute('data-theme', savedTheme);
 
 themeToggle.addEventListener('click', () => {
@@ -35,6 +39,9 @@ themeToggle.addEventListener('click', () => {
 });
 
 function getSymbol(player) {
+    if (currentDesign === 'original') {
+        return player === 'X' ? '❌' : '⭕';
+    }
     return player;
 }
 
