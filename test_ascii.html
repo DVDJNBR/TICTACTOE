@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body {
+    font-family: monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: white;
+    color: black;
+  }
+  .container {
+    position: relative;
+    display: inline-block;
+  }
+  pre {
+    margin: 0;
+    font-family: monospace;
+    font-size: 32px;
+    line-height: 1.5; /* Crucial for vertical alignment */
+    white-space: pre;
+    text-align: center;
+  }
+  .grid-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    /* Divide the pre string block cleanly.
+       There are 3 rows of height 1.5em and 2 separator rows of height 1.5em.
+       Total 5 rows. Wait, our pre has no line breaks between 'X | O' and '---|---'
+       Let's look at the actual text output:
+       row 1:  X | O |   (height 1.5em)
+       row 2: ---|---|--- (height 1.5em)
+       row 3:    | X |   (height 1.5em)
+       row 4: ---|---|--- (height 1.5em)
+       row 5:    |   | O (height 1.5em)
+       Total height is 7.5em.
+       We want our 3x3 cells to roughly cover these areas.
+       Let's use a 3x5 grid and assign the cells appropriately!
+    */
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    opacity: 0.5;
+  }
+  .cell {
+    border: 1px solid red; /* Just for testing */
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+  /* Place the cells on the correct rows */
+  .cell:nth-child(-n+3) { grid-row: 1; }
+  .cell:nth-child(n+4):nth-child(-n+6) { grid-row: 3; }
+  .cell:nth-child(n+7) { grid-row: 5; }
+</style>
+</head>
+<body>
+<div class="container">
+<pre id="ascii-board"></pre>
+<div class="grid-overlay">
+  <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+  <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+  <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+</div>
+</div>
+<script>
+  const board = [
+    ['❌', '⭕', ' '],
+    [' ', '❌', ' '],
+    [' ', ' ', '⭕']
+  ];
+
+  function renderAscii(b) {
+    const fws = '\u3000'; // Full width space
+    const e = (v) => v === ' ' ? fws : v;
+    return `
+ ${e(b[0][0])} | ${e(b[0][1])} | ${e(b[0][2])}
+----|----|----
+ ${e(b[1][0])} | ${e(b[1][1])} | ${e(b[1][2])}
+----|----|----
+ ${e(b[2][0])} | ${e(b[2][1])} | ${e(b[2][2])}
+`.trim();
+  }
+
+  document.getElementById('ascii-board').textContent = renderAscii(board);
+</script>
+</body>
+</html>

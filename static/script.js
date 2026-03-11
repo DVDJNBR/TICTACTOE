@@ -24,7 +24,7 @@ designToggle.addEventListener('change', (e) => {
 });
 
 // Theme Initialization
-const savedTheme = localStorage.getItem('theme') || 'dark';
+const savedTheme = localStorage.getItem('theme') || 'light';
 document.documentElement.setAttribute('data-theme', savedTheme);
 
 themeToggle.addEventListener('click', () => {
