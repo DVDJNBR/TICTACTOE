@@ -35,9 +35,6 @@ themeToggle.addEventListener('click', () => {
 });
 
 function getSymbol(player) {
-    if (currentDesign === 'original') {
-        return player === 'X' ? '❌' : '⭕';
-    }
     return player;
 }
 
