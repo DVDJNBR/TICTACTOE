@@ -70,7 +70,7 @@ function endIfOver() {
   if (!winner) return false;
   gameOver = true;
   if (winner === 'Draw') setStatus('match nul.');
-  else setStatus(winner === humanPlayer ? 'tu gagnes !' : 'l\'IA gagne.');
+  else setStatus(winner === humanPlayer ? 'tu gagnes !' : 'tu perds.');
   return true;
 }
 
