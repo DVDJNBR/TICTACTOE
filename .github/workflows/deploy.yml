@@ -13,18 +13,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
-          python-version: '3.11'
+          node-version: '22'
+          cache: 'npm'
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt pytest
+        run: npm ci
       - name: Run tests
-        run: |
-          # Only run the logic tests, not the screenshot ones which need a GUI
-          python -m pytest tests/test_game_logic.py
+        run: npm run test
+      - name: Build
+        run: npm run build
 
   deploy:
     runs-on: ubuntu-latest
@@ -41,9 +40,5 @@ jobs:
           script: |
             cd /home/ubuntu/tictactoe
             git pull origin main
-            if [ ! -d "venv" ]; then
-              python3 -m venv venv
-            fi
-            ./venv/bin/python3 -m pip install --upgrade pip
-            ./venv/bin/python3 -m pip install -r requirements.txt
-            sudo systemctl restart tictactoe
+            npm ci
+            npm run build
