@@ -42,8 +42,9 @@ app.innerHTML = `
     <pre id="board" class="board">${boardMarkup}</pre>
     <button id="restart">rejouer</button>
     <div class="links">
+      <span class="theme-label">thème : <button id="themeToggle" class="theme-toggle"></button></span>
+      <span class="sep">|</span>
       <a class="source" href="https://github.com/DVDJNBR/TICTACTOE" target="_blank" rel="noopener">source</a>
-      <button id="themeToggle" class="theme-toggle"></button>
     </div>
   </div>
 `;

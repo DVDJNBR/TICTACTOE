@@ -96,20 +96,28 @@ button:hover {
 }
 
 .source {
-  display: inline-block;
-  margin-top: 1rem;
   color: var(--fg);
   text-decoration: underline;
 }
 
 .links {
   display: flex;
-  gap: 1rem;
+  align-items: baseline;
+  gap: 0.5rem;
   margin-top: 1rem;
 }
 
+.theme-label {
+  color: var(--fg);
+}
+
+.sep {
+  color: var(--muted);
+}
+
 .theme-toggle {
-  display: inline-block;
+  display: inline;
+  vertical-align: baseline;
   color: var(--fg);
   text-decoration: underline;
   cursor: pointer;
