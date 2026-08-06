@@ -41,12 +41,34 @@ app.innerHTML = `
     <div id="status" class="status"></div>
     <pre id="board" class="board">${boardMarkup}</pre>
     <button id="restart">rejouer</button>
-    <a class="source" href="https://github.com/DVDJNBR/TICTACTOE" target="_blank" rel="noopener">source</a>
+    <div class="links">
+      <a class="source" href="https://github.com/DVDJNBR/TICTACTOE" target="_blank" rel="noopener">source</a>
+      <button id="themeToggle" class="theme-toggle"></button>
+    </div>
   </div>
 `;
 
 const statusEl = document.getElementById('status');
 const restartBtn = document.getElementById('restart');
+const themeToggleBtn = document.getElementById('themeToggle');
+
+function currentTheme() {
+  return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+}
+
+function renderThemeToggle() {
+  themeToggleBtn.textContent = currentTheme() === 'dark' ? 'clair' : 'sombre';
+}
+
+function toggleTheme() {
+  const next = currentTheme() === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  renderThemeToggle();
+}
+
+renderThemeToggle();
+themeToggleBtn.addEventListener('click', toggleTheme);
 
 let board, humanPlayer, aiPlayer, gameOver;
 
